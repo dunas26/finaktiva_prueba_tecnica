@@ -1,4 +1,4 @@
 <span class="relative">
-	<label (click)="onLabelClick()" [ngClass]="['absolute -top-6 left-4 bg-quaternary text-primary px-2', labelClasses]">{{ label }}</label>
+	<label (click)="onLabelClick()" [ngClass]="['absolute -top-6 left-4 bg-quaternary text-primary px-2 select-none', labelClasses]">{{ label }}</label>
 	<input (focus)="onInputFocus()" (blur)="onInputBlur()" #valueInput class="text-primary w-full p-2 outline outline-[0px] focus:outline-[1px] outline-tertiary border-2 border-tertiary rounded-md bg-quaternary transition-[outline-width,border,color,background-color]" [formControl]="formValue" [type]="type">
 </span>
