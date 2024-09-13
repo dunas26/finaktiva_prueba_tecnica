@@ -1,10 +1,11 @@
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, DefaultValueAccessor, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-input',
 	standalone: true,
-	imports: [ReactiveFormsModule],
+	imports: [ReactiveFormsModule, NgClass],
 	templateUrl: './input.component.html',
 	styles: ``,
 	host: {
@@ -18,6 +19,7 @@ export class InputComponent implements ControlValueAccessor {
 
 	private onChange: any;
 	private onTouched: any;
+	public labelClasses: string = "";
 
 	@Input({ required: true }) public label: string = "";
 	@Input({ required: false }) public type: string = "";
@@ -45,6 +47,11 @@ export class InputComponent implements ControlValueAccessor {
 		throw new Error('Method not implemented.');
 	}
 
+	onInputFocus(): void {
+		this.labelClasses = "underline";
+	}
 
-
+	onInputBlur(): void {
+		this.labelClasses = "";
+	}
 }

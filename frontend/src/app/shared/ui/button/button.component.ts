@@ -11,19 +11,17 @@ type ButtonStyle = "primary" | "secondary";
 	styles: ``
 })
 export class ButtonComponent {
+		private readonly classMap: { [key: string]: string } = {
+			primary: "bg-primary text-quaternary focus:outline-primary",
+			secondary: "bg-tertiary text-primary focus:outline-primary"
+		};
 
 	@Input({ required: true }) public label: string = "";
 	@Input() public loading: boolean = false;
 	@Input({ alias: "type" }) public set buttonType (value: ButtonStyle) {
 		value = value || "primary";
-		const classMap: { [key: string]: string } = {
-			primary: "bg-primary text-quaternary",
-			secondary: "bg-tertiary text-primary"
-		};
-		this.buttonClasses = classMap[value];
+		this.buttonClasses = this.classMap[value];
 	};
 
-	public buttonClasses: string = "bg-primary text-quaternary";
-
-
+	public buttonClasses: string = this.classMap["primary"];
 }
