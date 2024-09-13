@@ -1,0 +1,17 @@
+<button type="button"
+	[ngClass]="['flex items-center justify-center py-2 px-4 rounded-md text-sm font-mono shadow-sm relative after:absolute after:contents after:inset-0 active:after:bg-black/10 after:transition-[color,background-color,transform] active:translate-y-[2px] hover:-translate-y-[1px] hover:shadow-md overflow-hidden transition-[box-shadow,color,background-color,transform,outline] outline-[2px] duration-[50ms] focus:outline focus:outline-primary', buttonClasses]">
+	@if (loading) {
+	<span class="flex items-center justify-center animate-spin">
+		<p class="opacity-0">{{ label }}</p>
+		<svg class="absolute bx bx-loader-alt fill-quaternary -translate-y-[1%] text-lg" xmlns="http://www.w3.org/2000/svg"
+			width="24" height="24" viewBox="0 0 24 24" style="transform: ;msFilter:;">
+			<path
+				d="M12 22c5.421 0 10-4.579 10-10h-2c0 4.337-3.663 8-8 8s-8-3.663-8-8c0-4.336 3.663-8 8-8V2C6.579 2 2 6.58 2 12c0 5.421 4.579 10 10 10z">
+			</path>
+		</svg>
+	</span>
+	}
+	@else {
+	{{ label }}
+	}
+</button>
