@@ -1,0 +1,32 @@
+<article #container (click)="onOptionsClick()" (focus)="onOptionsClick()" (blur)="handleBlur($event)" [tabindex]="0"
+	class="relative">
+	<section class="relative">
+		<label [ngClass]="['absolute -top-3 left-4 bg-quaternary text-primary px-2 select-none', labelClasses]">{{ label
+			}}</label>
+		<div #valueInput
+			[ngClass]="['text-primary min-h-11 w-full p-2 outline outline-[0px] focus:outline-[1px] outline-tertiary border-2 border-tertiary rounded-md bg-quaternary transition-[outline-width,border,color,background-color,border-radius]', open ? 'rounded-b-none' : '']">
+			@if(selectedOption) {
+			<p>{{ selectedOption }}</p>
+			} @else {
+			<p>Select an option</p>
+			}
+			<span class="absolute top-2.5 right-2">
+				@if(open) {
+				<i class="bx bx-chevron-up text-2xl text-primary"></i>
+				} @else {
+				<i class="bx bx-chevron-down text-2xl text-primary"></i>
+				}
+			</span>
+		</div>
+	</section>
+	@if(open) {
+	<section
+		class="absolute text-primary min-h-11 w-full py-2 outline outline-[0px] focus:outline-[1px] outline-tertiary border-2 border-t-0 z-10 rounded-t-none border-tertiary rounded-md bg-quaternary transition-[outline-width,border,color,background-color,border-radius]">
+		@for(option of options; track option) {
+		<p (click)="writeValue(option)" class="p-2 hover:bg-tertiary hover:text-quaternary">{{ option }}</p>
+		} @empty {
+		<p class="p-2">No options</p>
+		}
+	</section>
+	}
+</article>
