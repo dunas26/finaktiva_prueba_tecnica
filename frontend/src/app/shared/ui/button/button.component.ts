@@ -18,7 +18,7 @@ export class ButtonComponent {
 		value = value || "primary";
 		const classMap: { [key: string]: string } = {
 			primary: "bg-primary text-quaternary",
-			secondary: "bg-tertiary text-quaternary"
+			secondary: "bg-tertiary text-primary"
 		};
 		this.buttonClasses = classMap[value];
 	};
