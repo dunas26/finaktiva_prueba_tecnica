@@ -35,16 +35,24 @@ export class LogFormModalComponent implements OnInit {
 	@Output() public close = new EventEmitter();
 	@Output() public submit = new EventEmitter<SubmitEvent>();
 
+	public title!: string;
+
+	readonly titleMap: Record<ModalMode, string> = {
+		"create": "Create new log",
+		"duplicate": "Create new log",
+		"edit": "Edit Log",
+	}
+
 	ngOnInit(): void {
 		this.form = this.fb.group({
-			id: this.fb.control("id"),
-			description: this.fb.control("description"),
-			type: this.fb.control("api"),
-			severity: this.fb.control("info"),
-			createdAt: this.fb.control("2020-12-20"),
-			deletedAt: this.fb.control("2020-12-20"),
+			id: this.fb.control(""),
+			description: this.fb.control(""),
+			type: this.fb.control(""),
+			severity: this.fb.control(""),
+			createdAt: this.fb.control(""),
 		});
 
+		this.title = this.titleMap[this.modalMode];
 		if (this.log) this.prepare(this.log, this.modalMode);
 	}
 
@@ -53,12 +61,22 @@ export class LogFormModalComponent implements OnInit {
 		switch (mode) {
 			case "create":
 				this.form.reset();
+				this.form.patchValue({
+					type: "manual_event_form",
+				});
 				break;
 			case "edit":
 				this.form.get("id")?.disable();
+				this.form.get("createdAt")?.disable();
+				this.form.get("type")?.disable();
+
 				this.form.patchValue({ ...log, createdAt: date });
 				break;
 			case "duplicate":
+				this.form.patchValue({
+					id: "",
+					createdAt: "",
+				});
 				this.form.patchValue({ ...log, createdAt: date });
 				break;
 		}
