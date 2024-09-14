@@ -1,11 +1,16 @@
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
 	selector: 'app-options',
 	standalone: true,
 	imports: [NgClass],
+	providers: [{
+		provide: NG_VALUE_ACCESSOR,
+		useExisting: forwardRef(() => OptionsComponent),
+		multi: true,
+	}],
 	templateUrl: './options.component.html',
 	styles: ``
 })
@@ -17,6 +22,7 @@ export class OptionsComponent implements ControlValueAccessor {
 	private onChange = (option: string) => { };
 	private onTouched = () => { };
 
+	public disabled = false;
 	public labelClasses: string = "";
 	public selectedOption?: string;
 	public open = false;
@@ -58,7 +64,7 @@ export class OptionsComponent implements ControlValueAccessor {
 		this.onTouched = fn;
 	}
 	setDisabledState?(isDisabled: boolean): void {
-		throw new Error('Method not implemented.');
+		this.disabled = isDisabled;
 	}
 
 }
