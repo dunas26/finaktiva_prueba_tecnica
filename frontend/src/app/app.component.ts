@@ -1,5 +1,5 @@
 import { HttpClient, withFetch } from "@angular/common/http";
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonComponent } from './shared/ui/button/button.component';
 import { ColorThemeService } from "./shared/services/color-theme.service";
@@ -8,7 +8,7 @@ import { InputComponent } from "./shared/ui/input/input.component";
 import { OptionsComponent } from "./shared/ui/options/options.component";
 import * as rx from "rxjs";
 import { AsyncPipe, JsonPipe } from "@angular/common";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Log } from "./domain/models/log";
 import { LogService } from "./shared/services/log.service";
 import { LogListComponent, OptionEvent } from "./shared/ui/log-list/log-list.component";
@@ -22,8 +22,8 @@ import { LogFormModalComponent, ModalMode, SubmitEvent } from "./shared/ui/log-f
 	templateUrl: './app.component.html',
 	styles: [],
 })
-export class AppComponent implements AfterViewInit {
-	constructor(private colorThemeService: ColorThemeService, private logService: LogService) { }
+export class AppComponent implements OnInit, AfterViewInit {
+	constructor(private colorThemeService: ColorThemeService, private logService: LogService, private fb: FormBuilder) { }
 	title = 'log-management';
 
 	public themes$: rx.Observable<string[]> = rx.of([]);
@@ -34,6 +34,35 @@ export class AppComponent implements AfterViewInit {
 	public modalMode: ModalMode = "create";
 	public modalLog?: Log;
 	public isModalOpen = false;
+
+	public invalidFilterDate = false;
+
+	public filterForm!: FormGroup;
+
+	readonly typeOptions = ["api", "manual_event_form"];
+
+	ngOnInit(): void {
+		this.filterForm = this.fb.group({
+			type: this.fb.control(""),
+			from: this.fb.control(""),
+			to: this.fb.control(""),
+		}, {
+			validators: (group: FormGroup) => {
+				const from = group.get("from");
+				const to = group.get("to");
+
+				const dateFrom = new Date(from?.value).getTime();
+				const dateTo = new Date(to?.value).getTime();
+
+				if (isNaN(dateFrom) || isNaN(dateTo)) return null;
+				const invalidDate = dateFrom > dateTo;
+				this.invalidFilterDate = invalidDate;
+				console.log(invalidDate);
+
+				return invalidDate ? { invalidDate: "date is invalid" } : null
+			}
+		});
+	}
 
 	ngAfterViewInit(): void {
 		this.colorThemeService.loadTheme("blossom");

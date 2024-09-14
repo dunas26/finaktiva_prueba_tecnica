@@ -1,5 +1,6 @@
 @if(isModalOpen) {
-<app-log-form-modal [modalMode]="modalMode" [log]="modalLog" (close)="closeModal()" (submit)="onModalSubmit($event)"></app-log-form-modal>
+<app-log-form-modal [modalMode]="modalMode" [log]="modalLog" (close)="closeModal()"
+	(submit)="onModalSubmit($event)"></app-log-form-modal>
 }
 <main class="max-w-3xl mx-auto m-2 bg-quaternary flex flex-col gap-4 shadow-md p-8 rounded-md">
 	<header class="grid grid-cols-[1fr,10rem] border-b border-primary justify-between">
@@ -13,6 +14,14 @@
 			<app-icon-button icon="bx-list-ul" />
 		</span>
 	</header>
+	<form class="grid grid-cols-[3fr,1fr,1fr] gap-2" [formGroup]="filterForm">
+		<app-options class="w-full" formControlName="type" label="Type" [options]="typeOptions"></app-options>
+		<app-input formControlName="from" label="from" type="date"></app-input>
+		<app-input formControlName="to" label="to" type="date"></app-input>
+	</form>
+	@if(invalidFilterDate) {
+	<span class="text-red-500">"From" date must be lower that "to" date</span>
+	}
 	<main class="w-full border border-primary rounded-md p-4 max-h-64 overflow-auto pb-40">
 		<app-log-list [logs]="(logs$ | async) ?? []" (optionSelected)="openModal($event)" />
 	</main>
