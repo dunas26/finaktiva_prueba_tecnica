@@ -13,7 +13,7 @@
 			<app-icon-button icon="bx-list-ul" />
 		</span>
 	</header>
-	<main class="w-full border border-primary rounded-md p-4 max-h-64 overflow-auto pb-24">
+	<main class="w-full border border-primary rounded-md p-4 max-h-64 overflow-auto pb-40">
 		<app-log-list [logs]="(logs$ | async) ?? []" (optionSelected)="openModal($event)" />
 	</main>
 	<span>

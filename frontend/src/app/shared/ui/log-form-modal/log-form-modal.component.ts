@@ -83,7 +83,12 @@ export class LogFormModalComponent implements OnInit {
 	}
 
 	onFormSubmit() {
-		const log = this.log ? { ...this.log, ...this.form.value } : this.form.value;
+		let log = this.log ? { ...this.log, ...this.form.value } : this.form.value;
+		if (this.modalMode == "duplicate") log = {
+			...log,
+			id: "",
+			createdAt: "",
+		};
 		this.submit.emit({ mode: this.modalMode, log });
 		this.onModalClose();
 	}

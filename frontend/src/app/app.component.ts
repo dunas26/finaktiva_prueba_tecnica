@@ -67,9 +67,8 @@ export class AppComponent implements AfterViewInit {
 	}
 
 	onModalSubmit({ log, mode }: SubmitEvent) {
-		console.log({ log, mode });
-
 		switch (mode) {
+			case "duplicate":
 			case "create":
 				this.logService.saveLog(log).subscribe(
 					{ next: () => this.updateLogs() }
