@@ -43,6 +43,10 @@ export class AppComponent implements AfterViewInit {
 			this.colorThemeService.loadTheme(theme);
 		})
 
+		this.updateLogs();
+	}
+
+	updateLogs() {
 		this.logs$ = this.logService.getAllLogs();
 	}
 
@@ -60,9 +64,11 @@ export class AppComponent implements AfterViewInit {
 		console.log({ log, mode });
 	}
 
-	openModal({log, option}: OptionEvent) {
-		if(option == "delete") {
-			// Delete log
+	openModal({ log, option }: OptionEvent) {
+		if (option == "delete") {
+			this.logService.deleteById(log.id).subscribe(
+				{ next: () => this.updateLogs() }
+			);
 			return;
 		}
 
