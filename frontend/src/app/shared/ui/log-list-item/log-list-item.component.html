@@ -1,9 +1,10 @@
 <article
-	class="relative grid grid-cols-[1fr,4fr,10fr,auto,1fr] items-center px-4 p-2 shadow-md rounded-md gap-2 border border-primary">
+	class="relative grid grid-cols-[1fr,4fr,10fr,auto,1rem,1fr] items-center px-4 p-2 shadow-md rounded-md gap-2 border border-primary">
 	<p>{{ log.id }}</p>
 	<p>{{ log.type }}</p>
 	<p>{{ log.severity }}</p>
 	<p>{{ log.createdAt | date }}</p>
+	<i class="bx bx-spreadsheet text-lg text-secondary cursor-pointer" [title]="log.description"></i>
 	<span (click)="onOptionsToggle()" (keydown.enter)="onOptionsToggle()" (keydown.space)="onOptionsToggle()"
 		(blur)="onOptionsBlur($event)" tabindex="0">
 		<i class="p-2 cursor-pointer bx bx-dots-vertical-rounded text-xl self-center"></i>
