@@ -16,4 +16,8 @@ export class LogService {
 			return res.data
 		}));
 	}
+
+	deleteById(id: string): rx.Observable<void> {
+		return this.http.delete<void>(`$/logs/${id}`);
+	}
 }
