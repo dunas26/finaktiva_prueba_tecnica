@@ -1,0 +1,21 @@
+<article
+	class="relative grid grid-cols-[1fr,4fr,10fr,auto,1fr] items-center px-4 p-2 shadow-md rounded-md gap-2 border border-primary">
+	<p>{{ log.id }}</p>
+	<p>{{ log.type }}</p>
+	<p>{{ log.severity }}</p>
+	<p>{{ log.createdAt | date }}</p>
+	<span (click)="onOptionsToggle()" (keydown.enter)="onOptionsToggle()" (keydown.space)="onOptionsToggle()"
+		(blur)="onOptionsBlur($event)" tabindex="0">
+		<i class="p-2 cursor-pointer bx bx-dots-vertical-rounded text-xl self-center"></i>
+		@if(optionsOpened) {
+		<span
+			class="flex flex-col border border-primary shadow-md rounded-md absolute bg-quaternary right-0 -bottom-[250%] z-10 overflow-hidden min-w-24 py-2">
+			@for (option of optionsItems; track option) {
+			<p (click)="onOptionSelect(option)" (keydown.enter)="onOptionSelect(option)"
+				(keydown.space)="onOptionSelect(option)" tabindex="0"
+				class="capitalize w-full p-2 block text-center hover:bg-tertiary hover:text-quaternary">{{ option }}</p>
+			}
+		</span>
+		}
+	</span>
+</article>
