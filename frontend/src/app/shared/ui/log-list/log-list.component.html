@@ -1,0 +1,7 @@
+<section class="flex flex-col gap-4">
+	@for(log of logs; track log.id) {
+	<app-log-list-item (optionSelected)="onLogOptionSelected(log, $event)" [log]="log"></app-log-list-item>
+	} @empty {
+	<p>There are no logs available</p>
+	}
+</section>
