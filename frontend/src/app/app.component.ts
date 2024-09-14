@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	public filterForm!: FormGroup;
 
-	readonly typeOptions = ["api", "manual_event_form"];
+	readonly typeOptions = ["all", "api", "manual_event_form"];
 
 	ngOnInit(): void {
 		this.filterForm = this.fb.group({
@@ -66,8 +66,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		this.colorThemeService.loadTheme("blossom");
-		this.themeFormControl.setValue("blossom");
+		this.colorThemeService.loadTheme("finaktiva");
+		this.themeFormControl.setValue("finaktiva");
 		this.themes$ = this.colorThemeService.getAvailableThemes();
 		this.themeFormControl.valueChanges.subscribe((theme) => {
 			this.colorThemeService.loadTheme(theme);
@@ -133,7 +133,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	private filter(logs: rx.Observable<Log[]>): rx.Observable<Log[]> {
 		return logs.pipe(rx.map((logs) => {
 			const type = this.filterForm.get("type")?.value;
-			if (!type) return logs;
+			if (!type || type == "all") return logs;
 			return logs.filter((log) => log.type == type);
 		}), rx.map((logs) => {
 			const from = this.filterForm.get("from")?.value;
