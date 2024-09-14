@@ -71,10 +71,14 @@ export class AppComponent implements AfterViewInit {
 
 		switch (mode) {
 			case "create":
-			case "edit":
 				this.logService.saveLog(log).subscribe(
 					{ next: () => this.updateLogs() }
-				)
+				);
+				break;
+			case "edit":
+				this.logService.updateLogById(log.id, log).subscribe({
+					next: () => this.updateLogs()
+				});
 				break;
 		}
 	}

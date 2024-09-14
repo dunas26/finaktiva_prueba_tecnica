@@ -24,4 +24,8 @@ export class LogService {
 	saveLog(log: Log): rx.Observable<Log> {
 		return this.http.post<Log>("$/logs", { ...log, type: "manual_event_form" });
 	}
+
+	updateLogById(id: string, log: Omit<Log, "createdAt" | "id">): rx.Observable<Log> {
+		return this.http.put<Log>(`$/logs/${id}`, { ...log });
+	}
 }

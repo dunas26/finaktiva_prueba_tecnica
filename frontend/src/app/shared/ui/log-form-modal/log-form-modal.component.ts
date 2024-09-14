@@ -83,7 +83,8 @@ export class LogFormModalComponent implements OnInit {
 	}
 
 	onFormSubmit() {
-		this.submit.emit({ mode: this.modalMode, log: this.form.value });
+		const log = this.log ? { ...this.log, ...this.form.value } : this.form.value;
+		this.submit.emit({ mode: this.modalMode, log });
 		this.onModalClose();
 	}
 
