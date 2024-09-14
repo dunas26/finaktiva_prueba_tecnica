@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as rx from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -33,6 +34,11 @@ export class ColorThemeService {
 			style += "}";
 			this.themeContext.textContent = style;
 		});
+	}
 
+	getAvailableThemes(): rx.Observable<string[]> {
+		return this.http.get("theme_list.txt", { responseType: "text" }).pipe(rx.map((data) => {
+			return data.trim().split("\n");
+		}));
 	}
 }
