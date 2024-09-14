@@ -20,4 +20,8 @@ export class LogService {
 	deleteById(id: string): rx.Observable<void> {
 		return this.http.delete<void>(`$/logs/${id}`);
 	}
+
+	saveLog(log: Log): rx.Observable<Log> {
+		return this.http.post<Log>("$/logs", { ...log, type: "manual_event_form" });
+	}
 }
