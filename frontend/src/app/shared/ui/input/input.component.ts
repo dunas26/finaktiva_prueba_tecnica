@@ -1,11 +1,18 @@
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ControlValueAccessor, DefaultValueAccessor, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, forwardRef, Input, ViewChild } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-input',
 	standalone: true,
 	imports: [ReactiveFormsModule, NgClass],
+	providers: [
+		{
+			provide: NG_VALUE_ACCESSOR,
+			useExisting: forwardRef(() => InputComponent),
+			multi: true,
+		}
+	],
 	templateUrl: './input.component.html',
 	styles: ``,
 	host: {
@@ -19,6 +26,7 @@ export class InputComponent implements ControlValueAccessor {
 
 	private onChange: any;
 	private onTouched: any;
+	public disabled = false;
 	public labelClasses: string = "";
 
 	@Input({ required: true }) public label: string = "";
@@ -26,7 +34,7 @@ export class InputComponent implements ControlValueAccessor {
 	@ViewChild('valueInput') public valueInput!: ElementRef<HTMLInputElement>;
 
 	writeValue(value: string): void {
-		this.formValue.get
+		this.formValue.setValue(value);
 		if (this.onChange)
 			this.onChange(value);
 	}
@@ -44,7 +52,7 @@ export class InputComponent implements ControlValueAccessor {
 		this.onTouched = fn;
 	}
 	setDisabledState?(isDisabled: boolean): void {
-		throw new Error('Method not implemented.');
+		this.disabled = isDisabled;
 	}
 
 	onInputFocus(): void {
