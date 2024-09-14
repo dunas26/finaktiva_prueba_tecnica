@@ -33,7 +33,7 @@ export class AppComponent implements AfterViewInit {
 
 	public modalMode: ModalMode = "create";
 	public modalLog?: Log;
-	public isModalOpen = true;
+	public isModalOpen = false;
 
 	ngAfterViewInit(): void {
 		this.colorThemeService.loadTheme("blossom");
@@ -50,6 +50,12 @@ export class AppComponent implements AfterViewInit {
 		this.logs$ = this.logService.getAllLogs();
 	}
 
+	createLog() {
+		this.isModalOpen = true;
+		this.modalMode = "create";
+		this.modalLog = undefined;
+	}
+
 	changeTheme(theme: string): void {
 		this.colorThemeService.loadTheme(theme);
 	}
@@ -62,6 +68,15 @@ export class AppComponent implements AfterViewInit {
 
 	onModalSubmit({ log, mode }: SubmitEvent) {
 		console.log({ log, mode });
+
+		switch (mode) {
+			case "create":
+			case "edit":
+				this.logService.saveLog(log).subscribe(
+					{ next: () => this.updateLogs() }
+				)
+				break;
+		}
 	}
 
 	openModal({ log, option }: OptionEvent) {
