@@ -1,3 +1,7 @@
+@if(isModalOpen) {
+<app-log-form-modal [modalMode]="modalMode" [log]="modalLog" (close)="closeModal()"
+	(submit)="onModalSubmit($event)"></app-log-form-modal>
+}
 <main class="max-w-3xl mx-auto m-2 bg-quaternary flex flex-col gap-4 shadow-md p-8 rounded-md">
 	<header class="grid grid-cols-[1fr,10rem] border-b border-primary justify-between">
 		<span>
@@ -11,7 +15,7 @@
 		</span>
 	</header>
 	<main class="w-full border border-primary rounded-md p-4">
-		<app-log-list [logs]="(logs$ | async) ?? []" />
+		<app-log-list [logs]="(logs$ | async) ?? []" (optionSelected)="openModal($event)" />
 	</main>
 	<footer class="w-full grid grid-cols-[1fr,3rem]">
 		<span>

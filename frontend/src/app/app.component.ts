@@ -11,12 +11,13 @@ import { AsyncPipe, JsonPipe } from "@angular/common";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { Log } from "./domain/models/log";
 import { LogService } from "./shared/services/log.service";
-import { LogListComponent } from "./shared/ui/log-list/log-list.component";
+import { LogListComponent, OptionEvent } from "./shared/ui/log-list/log-list.component";
+import { LogFormModalComponent, ModalMode, SubmitEvent } from "./shared/ui/log-form-modal/log-form-modal.component";
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [RouterOutlet, ButtonComponent, IconButtonComponent, InputComponent, OptionsComponent, AsyncPipe, ReactiveFormsModule, JsonPipe, LogListComponent],
+	imports: [RouterOutlet, ButtonComponent, IconButtonComponent, InputComponent, OptionsComponent, AsyncPipe, ReactiveFormsModule, JsonPipe, LogListComponent, LogFormModalComponent],
 	providers: [ColorThemeService],
 	templateUrl: './app.component.html',
 	styles: [],
@@ -29,6 +30,10 @@ export class AppComponent implements AfterViewInit {
 	public themeFormControl = new FormControl();
 
 	public logs$: rx.Observable<Log[]> = rx.of([]);
+
+	public modalMode: ModalMode = "create";
+	public modalLog?: Log;
+	public isModalOpen = true;
 
 	ngAfterViewInit(): void {
 		this.colorThemeService.loadTheme("blossom");
@@ -43,5 +48,26 @@ export class AppComponent implements AfterViewInit {
 
 	changeTheme(theme: string): void {
 		this.colorThemeService.loadTheme(theme);
+	}
+
+	closeModal() {
+		this.isModalOpen = false;
+		this.modalLog = undefined;
+		this.modalMode = "create";
+	}
+
+	onModalSubmit({ log, mode }: SubmitEvent) {
+		console.log({ log, mode });
+	}
+
+	openModal({log, option}: OptionEvent) {
+		if(option == "delete") {
+			// Delete log
+			return;
+		}
+
+		this.modalLog = log;
+		this.modalMode = option;
+		this.isModalOpen = true;
 	}
 }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Log } from '../../../domain/models/log';
 import { DatePipe } from '@angular/common';
 
+export type LogOption = "edit" | "duplicate" | "delete";
 @Component({
 	selector: 'app-log-list-item',
 	standalone: true,
@@ -11,11 +12,11 @@ import { DatePipe } from '@angular/common';
 })
 export class LogListItemComponent {
 	@Input({ required: true }) public log!: Log;
-	@Output() optionSelected = new EventEmitter<string>();
+	@Output() optionSelected = new EventEmitter<LogOption>();
 
 	public optionsOpened = false;
 
-	readonly optionsItems: string[] = [
+	readonly optionsItems: LogOption[] = [
 		"edit",
 		"duplicate",
 		"delete"
@@ -34,7 +35,7 @@ export class LogListItemComponent {
 		this.optionsOpened = true;
 	}
 
-	onOptionSelect(option: string) {
+	onOptionSelect(option: LogOption) {
 		this.optionSelected.emit(option);
 	}
 

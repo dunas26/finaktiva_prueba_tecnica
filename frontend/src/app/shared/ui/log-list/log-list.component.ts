@@ -1,7 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Log } from '../../../domain/models/log';
-import { LogListItemComponent } from '../log-list-item/log-list-item.component';
+import { LogListItemComponent, LogOption } from '../log-list-item/log-list-item.component';
 
+export interface OptionEvent {
+	log: Log;
+	option: LogOption;
+}
 @Component({
 	selector: 'app-log-list',
 	standalone: true,
@@ -12,8 +16,9 @@ import { LogListItemComponent } from '../log-list-item/log-list-item.component';
 export class LogListComponent {
 	public viewType = "list";
 	@Input() public logs: Log[] = [];
+	@Output() public optionSelected = new EventEmitter<OptionEvent>();
 
-	onLogOptionSelected(log: Log, option: string) {
-		console.log({ log, option })
+	onLogOptionSelected(log: Log, option: LogOption) {
+		this.optionSelected.emit({ log, option })
 	}
 }
