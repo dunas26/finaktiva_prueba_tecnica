@@ -5,6 +5,6 @@ export interface Log {
 	type?: LogType;
 	description: string;
 	severity: LogSeverity;
-	createdAt: Date;
-	deletedAt?: Date;
+	createdAt: string;
+	deletedAt?: string;
 }
