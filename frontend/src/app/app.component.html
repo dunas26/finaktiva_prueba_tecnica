@@ -23,7 +23,7 @@
 	<span class="text-red-500">"From" date must be lower that "to" date</span>
 	}
 	<main class="w-full border border-primary rounded-md p-4 max-h-64 overflow-auto pb-40">
-		<app-log-list [logs]="(logs$ | async) ?? []" (optionSelected)="openModal($event)" />
+		<app-log-list [logs]="(filteredLogs$ | async) ?? []" (optionSelected)="openModal($event)" />
 	</main>
 	<span>
 		<app-button (click)="createLog()" label="Create new log" />

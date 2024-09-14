@@ -30,6 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	public themeFormControl = new FormControl();
 
 	public logs$: rx.Observable<Log[]> = rx.of([]);
+	public filteredLogs$: rx.Observable<Log[]> = rx.of([]);
 
 	public modalMode: ModalMode = "create";
 	public modalLog?: Log;
@@ -73,10 +74,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 		})
 
 		this.updateLogs();
+
+		this.filterForm.valueChanges.subscribe(() => {
+			this.filteredLogs$ = this.filter(this.logs$);
+		})
 	}
 
 	updateLogs() {
 		this.logs$ = this.logService.getAllLogs();
+		this.filteredLogs$ = this.filter(this.logs$);
 	}
 
 	createLog() {
@@ -122,5 +128,26 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.modalLog = log;
 		this.modalMode = option;
 		this.isModalOpen = true;
+	}
+
+	private filter(logs: rx.Observable<Log[]>): rx.Observable<Log[]> {
+		return logs.pipe(rx.map((logs) => {
+			const type = this.filterForm.get("type")?.value;
+			if (!type) return logs;
+			return logs.filter((log) => log.type == type);
+		}), rx.map((logs) => {
+			const from = this.filterForm.get("from")?.value;
+			const to = this.filterForm.get("to")?.value;
+
+			const dateFrom = new Date(from).getTime();
+			const dateTo = new Date(to).getTime();
+
+			if (isNaN(dateFrom) || isNaN(dateTo)) return logs;
+
+			return logs.filter((log) => {
+				const logDate = new Date(log.createdAt).getTime();
+				return logDate >= dateFrom && logDate <= dateTo
+			})
+		}));
 	}
 }
