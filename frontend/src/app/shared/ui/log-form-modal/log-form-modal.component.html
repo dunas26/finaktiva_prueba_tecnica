@@ -11,7 +11,6 @@
 		</header>
 		<main>
 			<form [formGroup]="form" class="grid w-full border border-primary rounded-md p-4 gap-4">
-				{{ modalMode }}
 				@if(modalMode == "edit") {
 				<app-input formControlName="id" label="ID"></app-input>
 				}
