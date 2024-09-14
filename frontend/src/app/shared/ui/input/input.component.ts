@@ -34,6 +34,7 @@ export class InputComponent implements ControlValueAccessor {
 	@ViewChild('valueInput') public valueInput!: ElementRef<HTMLInputElement>;
 
 	writeValue(value: string): void {
+		if(this.disabled) return;
 		this.formValue.setValue(value);
 		if (this.onChange)
 			this.onChange(value);
@@ -53,6 +54,8 @@ export class InputComponent implements ControlValueAccessor {
 	}
 	setDisabledState?(isDisabled: boolean): void {
 		this.disabled = isDisabled;
+		if(isDisabled) this.formValue.disable();
+		else this.formValue.enable();
 	}
 
 	onInputFocus(): void {
